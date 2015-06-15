@@ -13,6 +13,7 @@
                  [fipp "0.6.2"]
                  [instaparse "1.4.0"]
                  [kovasb/gamma-driver "0.0-49"]
+                 [kovasb/gamma "0.0-135"]
                  [markdown-clj "0.9.66"]
                  [org.omcljs/om "0.8.8"]
                  [org.clojure/clojure "1.7.0-beta3"]
@@ -31,8 +32,9 @@
   :min-lein-version "2.5.0"
   :clean-targets ^{:protect false} [:target-path :compile-path "resources/public/js"]
   :profiles {:dev {:source-paths ["env/dev/clj"]
-                   :dependencies [[figwheel "0.3.3"]
-                                  [figwheel-sidecar "0.3.3"]]
+                   :dependencies [[figwheel-sidecar "0.3.3"]
+                                  [http-kit "2.1.18"] ;override figwheel's version to fix #152
+                                  ]
                    :cljsbuild {:test-commands { "test" ["phantomjs" "env/test/js/unit-test.js" "env/test/unit-test.html"] }
                                :builds {:test {:source-paths ["src/cljs" "test/cljs"]
                                                :compiler {:output-to     "resources/public/js/app_test.js"
