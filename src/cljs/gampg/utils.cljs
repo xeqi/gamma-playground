@@ -411,7 +411,7 @@
     (.viewport gl 0 0 width height)))
 
 (defn get-perspective-matrix
-  "Be sure to 
+  "Be sure to
    1. pass the WIDTH and HEIGHT of the canvas *node*, not
       the GL context
    2. (set! (.-width/height canvas-node)
@@ -445,7 +445,7 @@
     :mapping-fn     (fn [x] (or (:id x) (:element x) x))
     :input-state    (atom {})
     :input-fn       custom-input-fn
-    :produce-fn     driver/default-produce-fn}))
+    :produce-fn     driver/produce}))
 
 (defn make-frame-buffer [driver width height]
   (let [color {:width      width
@@ -518,31 +518,31 @@
                                    [   x  (- y)  z]
                                    [   x     y   z]
                                    [(- x)    y   z]
-                                   
+
                                    ;; Back face
                                    [(- x) (- y) (- z)]
                                    [(- x)    y  (- z)]
                                    [   x     y  (- z)]
                                    [   x  (- y) (- z)]
-                                   
+
                                    ;; Top face
                                    [(- x) y (- z)]
                                    [(- x) y    z]
                                    [   x  y    z]
                                    [   x  y (- z)]
-                                   
+
                                    ;; Bottom face
                                    [(- x) (- y) (- z)]
                                    [   x  (- y) (- z)]
                                    [   x  (- y)    z]
                                    [(- x) (- y)    z]
-                                   
+
                                    ;; Right face
                                    [x (- y) (- z)]
                                    [x    y  (- z)]
                                    [x    y     z]
                                    [x (- y)    z]
-                                   
+
                                    ;; Left face
                                    [(- x) (- y) (- z)]
                                    [(- x) (- y)    z]
@@ -593,31 +593,31 @@
                                    [0.0,  0.0,  1.0,]
                                    [0.0,  0.0,  1.0,]
                                    [0.0,  0.0,  1.0,]
-                                   
+
                                    ;; Back face
                                    [0.0,  0.0, -1.0,]
                                    [0.0,  0.0, -1.0,]
                                    [0.0,  0.0, -1.0,]
                                    [0.0,  0.0, -1.0,]
-                                   
+
                                    ;; Top face
                                    [0.0,  1.0,  0.0,]
                                    [0.0,  1.0,  0.0,]
                                    [0.0,  1.0,  0.0,]
                                    [0.0,  1.0,  0.0,]
-                                   
+
                                    ;; Bottom face
                                    [0.0, -1.0,  0.0,]
                                    [0.0, -1.0,  0.0,]
                                    [0.0, -1.0,  0.0,]
                                    [0.0, -1.0,  0.0,]
-                                   
+
                                    ;; Right face
                                    [1.0,  0.0,  0.0,]
                                    [1.0,  0.0,  0.0,]
                                    [1.0,  0.0,  0.0,]
                                    [1.0,  0.0,  0.0,]
-                                   
+
                                    ;; Left face
                                    [-1.0,  0.0,  0.0,]
                                    [-1.0,  0.0,  0.0,]
