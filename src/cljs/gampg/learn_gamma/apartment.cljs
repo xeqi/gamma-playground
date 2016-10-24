@@ -462,7 +462,7 @@
                            reflection-direction      (g/reflect (g/* -1 light-direction) normal)
                            specular-light-weighting  (-> (g/dot reflection-direction eye-direction)
                                                          (g/max 0)
-                                                         (g/pow u-material-shininess))
+                                                         (g/power u-material-shininess))
                            diffuse-light-weighting (-> (g/dot normal light-direction)
                                                        (g/max 0))
                            light-weighting           (-> (g/+ u-ambient-color u-point-lighting-specular-color)
@@ -511,7 +511,7 @@
     :fragment-shader {(g/gl-frag-color) (let [t (g/* u-view-direction-projection-inverse v-sky-box-position)]
                                           (->> (g/div (g/swizzle t :xyz)
                                                       (g/swizzle t :w))
-                                               g/normalize 
+                                               g/normalize
                                                (g/textureCube u-sky-box-sampler ))
                                           ;;(g/vec4 1 (g/swizzle v-sky-box-position :y) 0 1)
                                           )}
@@ -538,7 +538,7 @@
     :precision       {:float :mediump}}))
 
 (defn get-perspective-matrix
-  "Be sure to 
+  "Be sure to
    1. pass the WIDTH and HEIGHT of the canvas *node*, not
       the GL context
    2. (set! (.-width/height canvas-node)
@@ -619,7 +619,7 @@
     :mapping-fn     (fn [x] (or (:id x) (:element x) x))
     :input-state    (atom {})
     :input-fn       my-input-fn
-    :produce-fn     driver/default-produce-fn}))
+    :produce-fn     driver/produce}))
 
 (defn reset-gl-canvas! [canvas-node]
   (let [gl     (.getContext canvas-node "webgl")
@@ -672,13 +672,13 @@
                    0                    0     0                   1])))
 
 (def sky-box-vertices
-  {:data [-1  1  1 
-              1  1  1 
-              1 -1  1 
-              -1 -1  1 
-              -1  1 -1 
-              1  1 -1 
-              1 -1 -1 
+  {:data [-1  1  1
+              1  1  1
+              1 -1  1
+              -1 -1  1
+              -1  1 -1
+              1  1 -1
+              1 -1 -1
               -1 -1 -1]
    :id :sky-box-vertices
    :immutable? true})
@@ -826,7 +826,7 @@
         ;;
         ]
     ;;(js/console.log "draw-sky-box")
-    
+
     (draw-sky-box driver (get-in state [:runtime :programs :sky-box]) state p (get-in state [:skybox :texture])
                   (- (:pitch camera))
                   (- (:yaw camera)))
@@ -984,7 +984,7 @@
   (let [histories                (or (:histories opts)
                                      (atom {}))
         [controls-ch
-         stop-ch    
+         stop-ch
          keyboard-ch]            [(get-in @app-state [:comms :controls])
          (get-in @app-state [:comms :stop])
          (get-in @app-state [:comms :keyboard])]
@@ -1062,7 +1062,7 @@
         combined   (let [comb (-> (get-in mesh-1 [:primitives 0])
                                   (combine-primitives (get-in mesh-2 [:primitives 0]))
                                   (combine-primitives (get-in mesh-3 [:primitives 0])))]
-                     
+
                      (js/console.log "comb: " (clj->js comb))
                      (js/console.log "m3: " (clj->js (get-in mesh-3 [:primitives 0])))
                      (js/console.log "comb m3: " (clj->js (combine-primitives comb (get-in mesh-3 [:primitives 0]))))
@@ -1378,7 +1378,7 @@
         (utils/fix-webgl-inspector-quirks true true 250)
         (aset js/window "processedGLTF" (clj->js scene))
         (aset js/window "scene" scene)
-        
+
         (when-let [capture (and (:capture-first-frame? initial-query-map)
                                 (.-captureNextFrame js/window))]
           (.call capture))

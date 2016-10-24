@@ -107,7 +107,7 @@
                                                          (g/* 255))
                            specular-light-weighting  (-> (g/dot reflection-direction eye-direction)
                                                          (g/max 0)
-                                                         (g/pow shininess))
+                                                         (g/power shininess))
                            diffuse-light-weighting   (-> (g/dot normal light-direction)
                                                          (g/max 0))
                            light-weighting           (g/+ u-ambient-color
@@ -122,7 +122,7 @@
     :precision {:float :mediump}}))
 
 (defn get-perspective-matrix
-  "Be sure to 
+  "Be sure to
    1. pass the WIDTH and HEIGHT of the canvas *node*, not
       the GL context
    2. (set! (.-width/height canvas-node)
@@ -330,7 +330,7 @@
                                                                                          (assoc-in [:scene :color-texture] color-texture)
                                                                                          (assoc-in [:scene :specular-texture] specular-texture)
                                                                                          (assoc-in [:scene :sphere] sphere))))]
-        
+
         (if manual-step-frame-by-frame?
           (set! (.-tick js/window) next-tick)
           (do (<! (async/timeout 100))
